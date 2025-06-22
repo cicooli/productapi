@@ -1,29 +1,18 @@
 package oli.productapi.service;
 
-import oli.productapi.exception.ResourceNotFoundException;
-import oli.productapi.model.Product;
-import oli.productapi.repository.ProductRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
+import oli.productapi.dto.ProductDto;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
-public class ProductService {
-    private final ProductRepository productRepository;
+public interface ProductService {
+    ProductDto createProduct(ProductDto productDto);
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    ProductDto getProductById(UUID productId);
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
+    List<ProductDto> getAllProducts();
 
-    public Product getProductById(UUID id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
-    }
+    ProductDto updateProduct(UUID id, ProductDto updatedProductDto);
+
+    void deleteProduct(UUID id);
 }
-
