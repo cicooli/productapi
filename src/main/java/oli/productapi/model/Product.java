@@ -1,9 +1,7 @@
 package oli.productapi.model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -12,8 +10,10 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 public class Product {
 
     @Id
@@ -28,9 +28,6 @@ public class Product {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(length = 200)
-    private String imageUrl;
-
     @Column(nullable = false)
     private Integer stockLevel;
 
@@ -39,7 +36,6 @@ public class Product {
 
     private Instant updatedAt;
 
-    private Instant deletedAt;
 
     @PrePersist
     public void prePersist() {
@@ -50,6 +46,14 @@ public class Product {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = Instant.now();
+    }
+
+    public Product(UUID id, String name, String description, BigDecimal price, Integer stockLevel) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockLevel = stockLevel;
     }
 
 
